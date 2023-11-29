@@ -13,12 +13,11 @@
 #include "ChangePawn.h"
 
 #include <string>
-
-
+ 
 
 //castling can be performed if:
 //    1)the king and rook weren't moved yet
-//    2)there is no figures between them
+//    2)there are no figures between them
 //    3)the check is not set
 //    4)king is not passing through the attacked fields
 
@@ -28,13 +27,13 @@ int main()
     setlocale(LC_ALL, "Russian");
     MAP chessBoard;
     CheckingInput inputCheck;
-    King king;
-    Rook rook;
-    Bishop bishop;
-    Knight knight; 
-    Queen queen;
-    SmallPawn smallPawn;
-    LargePawn largePawn;
+    King king(15, 92);
+    Rook rook(12, 19, 89, 96);
+    Bishop bishop(14, 17, 91, 94);
+    Knight knight(13, 18, 90, 95); 
+    Queen queen(16, 93);
+    SmallPawn smallPawn(23, 24, 25, 26, 27, 28, 29, 30);
+    LargePawn largePawn(78, 79, 80, 81, 82, 83, 84, 85);
     Checkmate checkmate;  // checkmate, check - 'шах'
     Castling castling;    // castling - 'рокировка'
     ChangePawn changePawn;
@@ -165,7 +164,7 @@ int main()
             
             // move the figure
             if (board[prevBoardIndex] == 'k' || board[prevBoardIndex] == 'K') {       // moving the king
-                if (king.isPossibleForKing(prevBoardIndex, nextBoardIndex, boardWidth)) {
+                if (king.isPossibleForKing(nextBoardIndex, boardWidth)) {
                     chessBoard.changeMap(prevBoardIndex, nextBoardIndex);        // change map
                     checkmate.ChangeKingInd(nextBoardIndex, &board[0]);          // memorizing the current index of king
                     castling.addElement(prevBoardIndex);                         // memorizing the moved figures for castling
@@ -194,15 +193,23 @@ int main()
             }
             else if (board[prevBoardIndex] == 'p') {                                  // moving the small pawn
                 if (smallPawn.isPossibleForSmallPawn(prevBoardIndex, nextBoardIndex, boardWidth, &board[0])) {
+
                     chessBoard.changeMap(prevBoardIndex, nextBoardIndex);
-                    changePawn.change(nextBoardIndex, boardWidth, &board[0]);         // changing pawn to another figure if it
-                }                                                                     // has reached the opposite edge of the board
+                    if (changePawn.changed(nextBoardIndex, boardWidth, &board[0])) {         // changing pawn to another figure if it
+                                                                                             // has reached the opposite edge of the board
+                        changePawn.updateIndex(nextBoardIndex, queen, rook, knight, bishop); // memorizing the index of new figure
+                    }
+                }
             }
             else if (board[prevBoardIndex] == 'P') {                                  // moving the large pawn
                 if (largePawn.isPossibleForLargePawn(prevBoardIndex, nextBoardIndex, boardWidth, &board[0])) {
+
                     chessBoard.changeMap(prevBoardIndex, nextBoardIndex);
-                    changePawn.change(nextBoardIndex, boardWidth, &board[0]);         // changing pawn to another figure if it
-                }                                                                     // has reached the opposite edge of the board
+                    if (changePawn.changed(nextBoardIndex, boardWidth, &board[0])) {         // changing pawn to another figure if it
+                                                                                             // has reached the opposite edge of the board
+                        changePawn.updateIndex(nextBoardIndex, queen, rook, knight, bishop); // memorizing the index of new figure
+                    }
+                }                                                                     
             }
             else {
                 std::cout << "\nImpossible move.";

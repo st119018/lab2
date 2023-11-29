@@ -1,4 +1,3 @@
-#pragma once
 #include "Map.h"
 
 void MAP::showMap()
@@ -33,5 +32,3 @@ int MAP::getMapSize()
 {
 	return mapSize;
 }
-
-#pragma once

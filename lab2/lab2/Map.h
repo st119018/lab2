@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 
-
 class MAP {
 private:
 	int mapSize = 111;

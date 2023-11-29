@@ -1,5 +1,34 @@
 #include "ChangePawn.h"
 
+void ChangePawn::updateIndex(int index, Queen& queen, Rook& rook, Knight& knight, Bishop& bishop)
+{
+	// adding the new index to a relevant class
+	if (Figure == 'q') {
+		queen.addSmallInd(index);
+	}
+	else if (Figure == 'r') {
+		rook.addSmallInd(index);
+	}
+	else if (Figure == 'n') {
+		knight.addSmallInd(index);
+	}
+	else if (Figure == 'b') {
+		bishop.addSmallInd(index);
+	}
+	else if (Figure == 'Q') {
+		queen.addLargeInd(index);
+	}
+	else if (Figure == 'R') {
+		rook.addLargeInd(index);
+	}
+	else if (Figure == 'N') {
+		knight.addLargeInd(index);
+	}
+	else if (Figure == 'B') {
+		bishop.addLargeInd(index);
+	}
+}
+
 char* ChangePawn::findChessBoardPos(int index, int mapWidth, char* pos)
 {
 
@@ -12,7 +41,7 @@ char* ChangePawn::findChessBoardPos(int index, int mapWidth, char* pos)
 	return &pos[0]; // returns position (A8, G8, B1, etc)
 }
 
-void ChangePawn::change(int index, int mapWidth, char* map)
+bool ChangePawn::changed(int index, int mapWidth, char* map)
 {
 
 	int Ypos = findYpos(index, mapWidth);
@@ -26,34 +55,36 @@ void ChangePawn::change(int index, int mapWidth, char* map)
 		std::cout << "A pawn can become a queen, a rook, a knight or a bishop. Choose what figure it will become.";
 
 		std::string strFigure;
-		char charFigure = 0;
+		//char charFigure = 0;
 
 		do {
 			std::cout << "\nEnter the symbol of this figure: ";
 			std::cin >> strFigure;
-			charFigure = strFigure[0];
-		} while (strFigure.length() != 1 || (charFigure != 'q' && charFigure != 'r' && charFigure != 'n' && charFigure != 'b'));
+			Figure = strFigure[0];
+		} while (strFigure.length() != 1 || (Figure != 'q' && Figure != 'r' && Figure != 'n' && Figure != 'b'));
 
-		map[index] = charFigure; // changing pawn
+		map[index] = Figure; // changing pawn
+		return true;
 	}
 	// if a large pawn has reached the opposite edge of the chess board
 	else if (Ypos == 1 && map[index] == 'P') {
-
 
 		std::cout << "The pawn on " << pos[0] << pos[1] << " has reached the opposite edge.\n";
 		std::cout << "The pawn can become a queen, a rook, a knight or a bishop. Choose what figure it will become.";
 
 		std::string strFigure;
-		char charFigure = 0;
+		//char charFigure = 0;
 
 		do {
 			std::cout << "\nEnter the symbol of this figure: ";
 			std::cin >> strFigure;
-			charFigure = strFigure[0];
-		} while (strFigure.length() != 1 || (charFigure != 'Q' && charFigure != 'R' && charFigure != 'N' && charFigure != 'B'));
+			Figure = strFigure[0];
+		} while (strFigure.length() != 1 || (Figure != 'Q' && Figure != 'R' && Figure != 'N' && Figure != 'B'));
 
-		map[index] = charFigure; // changing pawn
+		map[index] = Figure; // changing pawn
+		return true;
 	}
-
+	else return false;
 }
+
 
