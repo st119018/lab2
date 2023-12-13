@@ -1,0 +1,13 @@
+#pragma once
+#include "BaseF.h"
+#include <string>
+
+class Knight : public BaseF {
+
+public:
+
+	Knight(char t, std::string side);
+
+	virtual bool isPossible(int prevInd, int nextInd, BaseF* map);
+
+};
