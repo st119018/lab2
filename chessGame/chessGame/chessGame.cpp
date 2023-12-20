@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 
+
 bool isCorrectInput(char input[5]);
 
 int main()
@@ -26,7 +27,6 @@ int main()
 	Rook blackRightRook('b', "right"), blackLeftRook('b', "left"), whiteRightRook('w', "right"), whiteLeftRook('w', "left");
 	Checkmate checkmate(blackKing.getXpos(), blackKing.getYpos(), whiteKing.getXpos(), whiteKing.getYpos());
 	Castling castling(blackKing.getXpos(), blackKing.getYpos(), whiteKing.getXpos(), whiteKing.getYpos());
-	
 
 	BaseF* blackPawns[8]{};
 	BaseF* whitePawns[8]{};

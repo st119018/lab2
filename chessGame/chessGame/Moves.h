@@ -8,6 +8,4 @@ public:
 
 	int findYpos(int index);
 
-	virtual ~Moves() {};
-
 };
